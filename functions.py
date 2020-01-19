@@ -9,6 +9,8 @@ def read_file(file):
     """
     try:
         file_object =  open(file,'r')
+        contents = file_object.read()
+        print(contents)
     except FileNotFoundError:
         msg = "ERROR: " + file + " does not exist"
         print(msg)
@@ -30,14 +32,12 @@ def add_to_list(file):
             temp_dict['description'] = line_list[1]
             temp_dict['price'] = float(line_list[2])
             temp_dict['supplier'] = line_list[3]
-            temp_dict['maufactureno'] = int(line_list[4])
+            temp_dict['manu'] = int(line_list[4])
             full_dict.append(temp_dict)
     cars = []
 
     for dict in full_dict:
         cars.append(dict)
-    for dict in cars:
-        print(dict['part number'])
     return cars
     
 
@@ -49,21 +49,17 @@ def sorting(msg, cars):
         newlist = sorted(cars, key=lambda k: k['price'])
         return newlist
     elif msg == "supplier":
-        newlist = sorted(cars, key=lambda k: k['price'])
-        return newlist
+        newlist = sorted(cars, key=lambda k: k['supplier'])
+        return newlist   
     else:
-        print("ERROR: Category unknown")
+        print("ERROR: Category unknown, Please re-enter category(supplier, price, or partnumber")
+        return 0;
 
 
-def printlog(list):
-    print("                 Full Catalog      \r")
-    print("Part no.    Description      Price     Supplier    Manu. Part No.\r")
+def printlog(list,str):
+    print("\r")    
+    print("                    Full Catalog Sorted by",str,"      \r")
+    print("Part no.       Description            Price        Supplier        Manu. Part No.\r")
     print("----------------------------------------------------------------------------------\r")
-    for dict in list:
-        print(dict['part number'],"     ",dict['description'],"     ",dict['price'],"      ", dict['supplier'],"      ", dict['maufactureno'])
-
-       
-
-
-
-
+    for i in list:
+        print('{:<13d}{:<25}{:<13.2f}{:<16s}{:<10d}'.format(i['part number'], i['description'], i['price'],i['supplier'],i['manu']))
